@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Be My Valentine 💕</title>
+
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #ffd6e0, #fff1f5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* Floating hearts */
+        .heart {
+            position: absolute;
+            bottom: -20px;
+            font-size: 16px;
+            opacity: 0.4;
+            animation: floatUp 8s linear infinite;
+        }
+
+        @keyframes floatUp {
+            from {
+                transform: translateY(0) scale(1);
+                opacity: 0.4;
+            }
+
+            to {
+                transform: translateY(-110vh) scale(1.4);
+                opacity: 0;
+            }
+        }
+
+        .card {
+            background: white;
+            padding: 40px;
+            border-radius: 24px;
+            text-align: center;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+            width: 90%;
+            max-width: 420px;
+            position: relative;
+            z-index: 2;
+        }
+
+        h1 {
+            color: #e63946;
+            margin-bottom: 12px;
+        }
+
+        p {
+            color: #555;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        .photos {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+            justify-content: center;
+        }
+
+        .photos img {
+            width: 100px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 14px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .buttons {
+            margin-top: 25px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            position: relative;
+            height: 50px;
+        }
+
+        button {
+            padding: 12px 26px;
+            border-radius: 30px;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .yes {
+            background: #e63946;
+            color: white;
+        }
+
+        .no {
+            background: #eee;
+            color: #333;
+            position: absolute;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .message {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #e63946;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Hearts container -->
+    <div id="hearts"></div>
+
+    <div class="card">
+
+        <!-- SCREEN 1 -->
+        <div id="question-screen">
+            <h1>Hey <span id="herName">Santan</span> 💕</h1>
+
+            <p>
+                From <strong id="joke1">inside joke one</strong>
+                to <strong id="joke2">inside joke two</strong>,
+                life with you is my favorite thing.
+            </p>
+
+            <!-- PHOTO SECTION -->
+            <div class="photos">
+                <!-- Replace src with your photos -->
+                <img src="photo1.jpg" alt="Us">
+                <img src="photo2.jpg" alt="Us">
+                <img src="photo3.jpg" alt="Us">
+            </div>
+
+            <h2>Will you be my Valentine? 💘</h2>
+
+            <div class="buttons row">
+                <button class="yes" onclick="sayYes()">Yes 💖</button>
+                <button class="no" id="noBtn">No 🙈</button>
+            </div>
+        </div>
+
+        <!-- SCREEN 2 -->
+        <div id="yes-screen" class="hidden">
+            <h1>YAY 🥰</h1>
+            <p>
+                Obviously 😌
+                I can’t wait to celebrate us.
+            </p>
+
+            <button class="yes" onclick="showDate()">Tell me the plan 💌</button>
+        </div>
+
+        <!-- SCREEN 3 -->
+        <div id="date-screen" class="hidden">
+            <h1>💖 Valentine Date 💖</h1>
+            <p>
+                📍 <strong id="datePlace"></strong><br>
+                🕯️ <strong id="dateActivity"></strong><br>
+                ⏰ <strong id="dateTime"></strong>
+            </p>
+
+            <p>
+                You just show up.
+                I’ve got the rest 😌
+            </p>
+        </div>
+
+    </div>
+
+    <script>
+        /* =========================
+           EDIT THIS SECTION
+        ========================== */
+        const herName = "HER NAME";
+        const insideJoke1 = "late night snacks";
+        const insideJoke2 = "stealing my hoodies";
+
+        const datePlace = "Dinner + sunset walk 🌙";
+        const dateActivity = "Good food, laughs & kisses";
+        const dateTime = "Feb 14th, 7:00 PM";
+        /* ========================= */
+
+        document.getElementById("herName").innerText = herName;
+        document.getElementById("joke1").innerText = insideJoke1;
+        document.getElementById("joke2").innerText = insideJoke2;
+
+        document.getElementById("datePlace").innerText = datePlace;
+        document.getElementById("dateActivity").innerText = dateActivity;
+        document.getElementById("dateTime").innerText = dateTime;
+
+        // NO button chaos 😈
+        const noBtn = document.getElementById("noBtn");
+        let scale = 1;
+
+        noBtn.addEventListener("mouseover", () => {
+            const x = Math.random() * 200 - 100;
+            const y = Math.random() * 120 - 60;
+            scale -= 0.1;
+            noBtn.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
+            if (scale <= 0.4) {
+                noBtn.style.display = "none";
+            }
+        });
+
+        function sayYes() {
+            document.getElementById("question-screen").classList.add("hidden");
+            document.getElementById("yes-screen").classList.remove("hidden");
+        }
+
+        function showDate() {
+            document.getElementById("yes-screen").classList.add("hidden");
+            document.getElementById("date-screen").classList.remove("hidden");
+        }
+
+        // Create floating hearts
+        const heartsContainer = document.getElementById("hearts");
+        setInterval(() => {
+            const heart = document.createElement("div");
+            heart.className = "heart";
+            heart.innerText = "💖";
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.fontSize = Math.random() * 10 + 12 + "px";
+            heartsContainer.appendChild(heart);
+
+            setTimeout(() => heart.remove(), 8000);
+        }, 800);
+    </script>
+
+</body>
+
+</html>
